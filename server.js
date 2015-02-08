@@ -5,7 +5,7 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var express = require('express');
 var app = express();
-process.env.PWD = process.cwd()
+process.env.PWD = process.cwd();
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/hackHousing_dev');
 app.set('jwtSecret', process.env.SECRET || 'REMEMBERTOCHANGETHIS');
