@@ -17,9 +17,9 @@ module.exports = function(app, appSecret, passport, mongoose) {
       newLtr.basic.name = req.body.name;
       newLtr.basic.phone = req.body.phone;
       newLtr.basic.magi = req.body.magi;
-      console.log('yo');
+      console.dir(newLtr);
       newLtr.save(function(err) {
-        if (err) return res.status(500).send('server error');
+        if (err) return res.status(500).send('error saving to db');
         res.json({jwt: newLtr.generateToken(appSecret)});
       });
     });
