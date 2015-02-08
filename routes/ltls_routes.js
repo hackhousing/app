@@ -14,6 +14,8 @@ module.exports = function(app, appSecret, passport, mongoose) {
       var newLtl = new Ltl();
       newLtl.basic.email = req.body.email;
       newLtl.basic.password = newLtl.generateHash(req.body.password);
+      newLtl.basic.name = req.body.name;
+      newLtl.basic.phone = req.body.phone;
       newLtl.save(function(err) {
         if (err) return res.status(500).send('server error');
         res.json({jwt: newLtl.generateToken(appSecret)});

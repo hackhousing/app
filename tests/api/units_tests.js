@@ -30,6 +30,8 @@ describe('units', function() {
     .field('email', 'test@example.com')
     .field('password', 'asdf')
     .field('passwordConfirm', 'asdf')
+    .field('name', 'the fonz')
+    .field('phone', '123-456-7890')
     .end(function(err, res) {
       expect(err).to.be.null;
       expect(res.body).to.have.property('jwt').that.is.a('string');

@@ -6,6 +6,7 @@ var jwt = require('jwt-simple');
 
 var ltrSchema = mongoose.Schema({
   basic: {
+    name: {type: String, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
     magi: {type: Number, required: true},
