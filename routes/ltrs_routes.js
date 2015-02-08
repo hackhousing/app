@@ -12,16 +12,14 @@ module.exports = function(app, appSecret, passport, mongoose) {
       if (req.body.password !== req.body.passwordConfirm) return res.status(500).send('passwords do not match');
 
       var newLtr = new Ltr();
+      console.dir(req.body);
       newLtr.basic.email = req.body.email;
       newLtr.basic.password = newLtr.generateHash(req.body.password);
       newLtr.basic.name = req.body.name;
       newLtr.basic.phone = req.body.phone;
       newLtr.basic.magi = req.body.magi;
       newLtr.save(function(err) {
-        if (err) {
-          console.log(err);
-          return res.status(500).send('error saving to db');
-        }
+        if (err) return res.status(500).send('error saving to db');
         res.json({jwt: newLtr.generateToken(appSecret)});
       });
     });
