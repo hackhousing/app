@@ -19,7 +19,7 @@ require('./routes/ltls_routes')(app, app.get('jwtSecret'), passport, mongoose);
 require('./routes/ltrs_routes')(app, app.get('jwtSecret'), passport, mongoose);
 require('./routes/units_routes')(app, app.get('jwtSecret'), mongoose);
 
-app.use(express.static(process.env.PWD + '/build'˚∫));
+app.use(express.static(process.env.PWD + '/build'));
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {
