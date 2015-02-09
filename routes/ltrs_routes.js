@@ -5,21 +5,24 @@ var Ltr = require('../models/ltr');
 module.exports = function(app, appSecret, passport, mongoose) {
   var formParser = require('../lib/form-parser')(mongoose.connection.db, mongoose.mongo);
   //add ltr
-  app.post('/api/ltrs', formParser, function(req, res) {
+  app.post('/api/ltrs', function(req, res) {
     Ltr.findOne({'basic.email': req.body.email}, function(err, ltr) {
       if (err) return res.status(500).send('server error');
       if (ltr) return res.status(500).send('cannot create that ltr');
       if (req.body.password !== req.body.passwordConfirm) return res.status(500).send('passwords do not match');
 
       var newLtr = new Ltr();
-      console.dir(req.body);
       newLtr.basic.email = req.body.email;
       newLtr.basic.password = newLtr.generateHash(req.body.password);
       newLtr.basic.name = req.body.name;
       newLtr.basic.phone = req.body.phone;
       newLtr.basic.magi = req.body.magi;
       newLtr.save(function(err) {
-        if (err) return res.status(500).send('error saving to db');
+        if (err) {
+          console.dir(req.body);
+          console.dir(err);
+          return res.status(500).send('error saving to db');
+        }
         res.json({jwt: newLtr.generateToken(appSecret)});
       });
     });
