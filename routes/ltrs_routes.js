@@ -1,6 +1,7 @@
 'use strict';
 
 var Ltr = require('../models/ltr');
+var multiparty = require('multiparty');
 
 module.exports = function(app, appSecret, passport, mongoose) {
   var formParser = require('../lib/form-parser')(mongoose.connection.db, mongoose.mongo);
@@ -11,6 +12,11 @@ module.exports = function(app, appSecret, passport, mongoose) {
       if (ltr) return res.status(500).send('cannot create that ltr');
       if (req.body.password !== req.body.passwordConfirm) return res.status(500).send('passwords do not match');
 
+      var form = new multiparty.Form();
+      form.parse(req, function(err, fields, files) {
+        console.dir(fields);
+      })
+
       var newLtr = new Ltr();
       newLtr.basic.email = req.body.email;
       newLtr.basic.password = newLtr.generateHash(req.body.password);
@@ -19,8 +25,6 @@ module.exports = function(app, appSecret, passport, mongoose) {
       newLtr.basic.magi = req.body.magi;
       newLtr.save(function(err) {
         if (err) {
-          console.dir(req.body);
-          console.dir(err);
           return res.status(500).send('error saving to db');
         }
         res.json({jwt: newLtr.generateToken(appSecret)});
