@@ -22,11 +22,11 @@ module.exports = function(app, appSecret, passport, mongoose) {
         //   newLtr.basic[name] = fields[name][0];
         // });
 
-        newLtr.basic.email = req.body.email[0];
-        newLtr.basic.password = newLtr.generateHash(req.body.password[0]);
-        newLtr.basic.name = req.body.name[0];
-        newLtr.basic.phone = req.body.phone[0];
-        newLtr.basic.magi = req.body.magi[0];
+        newLtr.basic.email = fields.email[0];
+        newLtr.basic.password = newLtr.generateHash(fields.password[0]);
+        newLtr.basic.name = fields.name[0];
+        newLtr.basic.phone = fields.phone[0];
+        newLtr.basic.magi = fields.magi[0];
         newLtr.save(function(err) {
           if (err) {
             return res.status(500).send('error saving to db');
